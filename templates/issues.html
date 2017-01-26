@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+   <body>
+   
+      <table border = 1>
+         <thead>
+            <td>Subject</td>
+            <td>Definition</td>
+            <td>Priority</td>
+            <td>raise_date</td>
+            <td>edit_date</td>
+            <td>is_closed</td>
+            <td>is_assigned</td>
+         </thead>
+         
+         {% for row in rows %}
+            <tr>
+               <td>{{row["subject"]}}</td>
+               <td>{{row["definition"]}}</td>
+               <td> {{ row["priority"]}}</td>
+               <td> {{ row["raisedate"]}}</td>
+               <td> {{ row["editdate"]}}</td>
+               <td> {{ row["assigned"]}}</td>
+               <td> {{ row["closed"]}}</td>
+            </tr>
+         {% endfor %}
+      </table>
+      
+      <a href = "/">Go back to home page</a>
+      
+   </body>
+</html>

@@ -1,16 +1,47 @@
-<!DOCTYPE html> 
-<html>
-<head>
-	<title></title>
-</head>
+{% extends "header.html" %} {% block content %}
 <body>
-<p>login page</p>
-<form method="POST">
-	<input type="text" name='username'>
-	<input type="password" name='password'>
-	<input type="submit" value="login"/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="lead">Login Below</h3>
+                <div class="panel panel-primary">
+                    <div class="panel panel-heading">
+                        Login
+                    </div>
+                    <div class="panel panel-body">
+                        {{ msg }}
+                        <form action = "{{ url_for('addrec') }}" method = "POST">
+                            <p>
+                                Enter Username <input required class="form-control" type="text" name="username" id="username" />
+                            </p>
+                            <p>
+                                Enter Password <input required class="form-control" type="password" name="password" id="password" />
+                            </p>
 
-</form>
+                            <p>
+                                <input type="submit" name="submit" class="btn btn-sm btn-primary" /> <span>Need and account?<a style="text-decoration: none;" href="{{ url_for('register') }}">Sign Up</a> 
+</span>
+                                <br />
+                                <br />
+                                <span class="alert alert-danger" style="padding: 3px 3px 3px 3px">{{ error }}</span>
+                            </p>
+                        </form>
 
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p align="center">Copyright &copy; IssueTracker 2017</p>
+            </div>
+        </div>
+    </footer>
 </body>
-</html>
+{% endblock %}

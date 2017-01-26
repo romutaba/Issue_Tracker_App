@@ -1,0 +1,6 @@
+*.pyc
+-pycache_
+.project
+.pydevproject
+myenv
+requirements.txt
