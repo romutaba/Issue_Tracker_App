@@ -101,7 +101,7 @@ def addissue():
 			con.rollback()
 			msg = "error in insert operation"
 		finally:
-			return render_template("result.html",msg = "msg")
+			return render_template("result.html",msg = msg)
 			con.close()
 
 
