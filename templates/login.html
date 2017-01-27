@@ -1,14 +1,49 @@
-<html>
-   <body>
-      
-      <form action = "{{ url_for('login') }}" method = "POST">
-         <h3>Login</h3>
-         UserName:<br>
-         <input type="" name="" name = "username" /><br>
-         Password:<br>
-         <input type = "password" name = "password" /><br>
-         <input type = "submit" value = "submit" /><br>
-      </form>
-      
-   </body>
-</html>
+ {% extends "header.html" %} {% block content %}
+
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="lead">Login Below</h3>
+                <div class="panel panel-primary">
+                    <div class="panel panel-heading">
+                        Login
+                    </div>
+                    <div class="panel panel-body">
+                        {{ msg }}
+                        <form action="{{ url_for('login') }}" id="products" method="post">
+                            <p>
+                                Enter Username: <input required class="form-control" type="text" name="username" id="username" />
+                            </p>
+                            <p>
+                                Enter Password <input required class="form-control" type="password" name="password" id="password" />
+                            </p>
+
+                            <p>
+                                <input type="submit" name="submit" class="btn btn-sm btn-primary" /> <span>Need and account?<a style="text-decoration: none;" href="{{ url_for('register') }}">Sign Up</a> 
+</span>
+                                <br />
+                                <br />
+                                <span class="alert alert-danger" style="padding: 3px 3px 3px 3px">{{ error }}</span>
+                            </p>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p align="center">Copyright &copy; Issue Tracker 2017</p>
+            </div>
+        </div>
+    </footer>
+</body>
+{% endblock %}

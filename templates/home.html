@@ -1,7 +1,61 @@
-<!doctype html>
-<html>
-   <body>
-   <h2>Welcome, Please Log in</h2>
-      
-   </body>
-</html>
+ {% extends "header_admin.html" %} {% block content %}
+
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10">
+
+                <div class="panel panel-primary" style="font-size: 12px;">
+                    <div class="panel panel-heading">
+                        Issues Raised
+                    </div>
+                    <div class="panel panel-body">
+                        <table class="table table-condensed table-striped table-responsive" style="font-size: 12px; " id="demo">
+                            <thead>
+                                <th>Department</th>
+                                <th>Definition</th>
+                                <th>Priority</th>
+                                <th>Raise date</th>
+                                <th>Status</th>
+                            </thead>
+                            <tbody>
+                                {%for row in rows %}
+                                <tr>
+                                    <td>{{ row["department"] }}</td>
+                                    <td>{{ row["definition"] }}</td>
+                                    <td>{{ row["priority"] }}</td>
+                                    <td>{{ row["raise_date"] }}</td>
+                                    <td>{{ row["is_assigned"] }}</td>
+                                </tr> {% endfor %}
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+                <div class="col-md-1 ">
+
+
+                </div>
+            </div>
+
+        </div>
+</body>
+
+
+
+<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.js"></script>
+<script type="text/javascript" src="../static/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="../static/js/dataTables.bootstrap.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#demo').dataTable({});
+    });
+</script>
+
+{% endblock %}

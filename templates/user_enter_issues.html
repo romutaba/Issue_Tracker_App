@@ -1,35 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-   <body>
-      
-      <form action = "{{ url_for('addissue') }}" method = "POST">
-         <h3>Add Issue</h3>
-         Subject:<br>
-         <input list="departments">
-        <datalist id="departments">
-          <option value="HR">
-          <option value="Finance">
-          <option value="Assets">
-          <option value="Opera">
-          <option value="Safari">
-        </datalist>
-        </input>
-        
-         Definition:<br>
-         <textarea type = "text" name = "definition"></textarea><br>
-         Priority:<br>
-         <input type = "text" name = "priority" /><br>
-         Raise Date:<br>
-         <input type = "date" name = "raisedate" /><br>
-         Edit Date:<br>
-         <input type = "date" name = "editdate" /><br>
-         Assigned:<br>
-         <input type = "taxt" name = "assigned" /><br>
-         Closed:<br>
-         <input type = "text" name = "closed" /><br>
-         <input type = "submit" value = "submit" /><br>
-      </form>
-      
-   </body>
-</html>
+{% extends "header.html" %} {% block content %}
 
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+      <h3 class="lead">Log Issue</h3>
+                <div class="panel panel-primary">
+                    <div class="panel panel-heading">
+                        Raise Issue
+                    </div>
+                    <div class="panel panel-body">
+                        <form action="{{ url_for('addissue') }}" method="POST">
+                            <p>
+                                Subject:
+                              <input list="departments" required class="form-control">
+                              <datalist id="departments">
+                                <option value="HR">
+                                <option value="Finance">
+                                <option value="Sales">
+                                <option value="Succcess">
+                                <option value="Marketing">
+                                <option value="Operations">
+                              </datalist>
+                              </input>
+        
+                            </p>
+                            <p>
+                                Definition: <input required class="form-control" type="textarea" name="definition" id="definition" />
+                            </p>
+                            <p>
+                                Priority: <select name = "priority", id="priority">
+								<option value="high">High</option>
+								<option value="medium">Medium</option>
+								<option value="low">Low</option>
+								</select>
+                            </p>
+                            <p>
+                                Raise Date: <input required class="form-control" type="date" name="raisedate" id="raisedate" />
+                            </p>
+                            <p>
+                                Edit Date: <input required class="form-control" type="date" name="editdate" id="editdate" />
+                            </p>
+                            <p>
+                                Assigned: <input placeholder="leave blank" ="form-control" type="text" name="assigned" id="assigned" />
+                            </p>
+                            <p>
+                                Closed: <input placeholder="leave blank" type="text" name="closed" id="closed" />
+                            </p>
+                            <p>
+                                <input type="submit" name="submit" class="btn btn-primary btn-sm" />
+
+                                <span style="padding: 3px 3px 3px 3px;" class="alert alert-success">{{ msg_succcess }} </span>
+                                <span style="padding: 3px 3px 3px 3px;" class="alert alert-danger">{{ msg }} </span>
+                            </p>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p align="center">Copyright &copy; Issue Tracker 2017</p>
+                </div>
+            </div>
+        </footer>
+</body>
+{% endblock %}

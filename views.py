@@ -1,13 +1,14 @@
 
 from flask import Flask
 import sqlite3 as sql
-from flask import Flask, redirect, flash, render_template, request, session, abort
+from flask import Flask, redirect, flash, render_template, request, session, abort, url_for
 import os
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-#session = S
+
+
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -19,33 +20,30 @@ def home():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-	if request.form['password'] == 'password' and request.form['username'] == 'admin':
+	if request.method == 'POST':
 		session['logged_in'] = True
-		username = request.form('username')
-		password = request.form('password')
-		dbHandler.insertUser(username, password)
-		users = sbHandler.retrieveUsers()
-		return render_template('result.html')
+		Username = request.form.get('username')
+		Password = request.form.get('password')
+		con = sql.connect("issuetracker.db")
+		con.row_factory = sql.Row
+		cur = con.cursor()
+		result= cur.execute("SELECT username, password FROM users where username=?",[Username])
+		result.fetchone()
+		if result is not None:
+			#print("halooooooo")
+			return render_template("home.html")
+
+		else:
+			print('Try again')
+		#return render_template('result.html')
 	else:
 		flash('wrong password!')
 		return render_template("login.html")
-
-# @app.route('/signin',methods = ['POST', 'GET'])
-# def signin():
-# 	if request.form['password'] == 'password' and request.form['username'] == 'admin':
-# 		session['logged_in'] = True
-# 		username = request.form('username')
-# 		password = request.form('password')
-# 		dbHandler.insertUser(username, password)
-# 		users = sbHandler.retrieveUsers()
-# 		return render_template('result.html')
-# 	else:
-# 		flash('wrong password!')
-# 		return home()
+		con.close()
 	
 
 @app.route('/register')
-def rgister():
+def register():
    return render_template('register.html')
 
 #function to add users, clone to add issues.
@@ -57,8 +55,11 @@ def addrec():
 			un = request.form['username']
 			email = request.form['email']
 			password = request.form['password']
-			dbHandler.insertUser(fn, un, email, password)
-			msg = "Record successfully added"
+			with sql.connect("issuetracker.db") as con:
+				cur = con.cursor()
+				cur.execute("INSERT INTO users (fullname,username,email, password) VALUES (?,?,?,?)", (fn,un,email,password))
+				con.commit()
+				msg = "Record successfully added"
 		except:
 			con.rollback()
 			msg = "error in insert operation"
@@ -69,7 +70,11 @@ def addrec():
 
 @app.route('/issue')
 def issue():
-   return render_template("user_enter_issues.html")
+
+	if not session.get("logged_in"):
+		return render_template('login.html')
+	else:
+		return render_template("user_enter_issues.html")
    #return "Yes im "
 
 
@@ -77,14 +82,20 @@ def issue():
 def addissue():
 	if request.method == 'POST':
 		try:
-			subject = request.form['subject']
+			departments = request.form['departments']
 			definition = request.form['definition']
 			priority = request.form['priority']
 			raisedate = request.form['raisedate']
 			editdate = request.form['editdate']
 			assigned = request.form['assigned']
 			closed = request.form['closed']
-			dbHandler.insertIssues(subject, definition, priority, raisedate, editdate, assigned, closed)
+
+			with sql.connect("issuetracker.db") as con:
+				cur = con.cursor()
+				cur.execute("INSERT INTO issues_raised (subject, definition, priority, raise_date, edit_date) VALUES (?,?,?,?,?)", (departments, definition, priority, raisedate, editdate))
+				con.commit()
+				msg = "Record successfully added"
+			
 			msg = "Record successfully added"
 		except:
 			con.rollback()
@@ -111,8 +122,17 @@ def list():
 @app.route('/logout')
 def logout():
     # remove the username from the session if it's there
-    session.pop('username', None)
-    return redirect(url_for('/'))
+    session.pop('users', None)
+    return redirect(url_for('login'))
+
+@app.route('/getSession')
+def getsession():
+    '''
+    getSessions
+    '''
+    if 'userz' in session:
+        return session['userz']
+    return "Not logged in !"
 
 
 
